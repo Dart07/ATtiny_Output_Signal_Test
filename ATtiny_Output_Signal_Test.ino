@@ -9,6 +9,7 @@ data[1] = 0xFF;
 pinMode(ATtiny_PIN2, OUTPUT);
 pinMode(ATtiny_PIN3, OUTPUT);
 digitalWrite(ATtiny_PIN2, LOW);
+digitalWrite(ATtiny_PIN3, LOW);
 }
 
 void loop() {
@@ -16,11 +17,27 @@ void loop() {
   //digitalWrite(ATtiny_PIN2, HIGH);
   //blinkLED();
   sendStart();
-  sendData(data[1]);
+  /*sendData(data[1]);
   sendData(data[0]);
   sendEnd();
+  */
 }
-void blinkLED(){
+// not going to work since it is a btye and not separate bits in an array...
+/*void sendStart(){
+ byte startByte = B10101010;
+   for (int x = 0; x < 7; x++){
+     if(startByte[x] == 1){
+       digitalWrite(ATtiny_PIN2, HIGH);
+       delay(1000);
+     }
+     else{
+       digitalWrite(ATtiny_PIN2, LOW);
+       delay(1000);
+     }   
+   } 
+  
+}*/
+/*void blinkLED(){
   while(true){
     digitalWrite(ATtiny_PIN2, HIGH);
     delay(1000);
@@ -28,11 +45,11 @@ void blinkLED(){
     delay(1000);
   }
 }
-
+*/
 void sendStart(){
   byte startByte = B10101010;
-  while(startByte != 0x00){
-    if(startByte & 1){
+  for(int x = 0; x < 7; x++){
+    if(startByte & B00000001 == B00000001){
       digitalWrite(ATtiny_PIN2, HIGH);
       delay(1000);
     }
@@ -43,7 +60,7 @@ void sendStart(){
     startByte >> 1;    
   }
 }
-
+/*
 void sendData(byte data){
   for(int i = 0; i < sizeof(data)-1; i++){
     if(data & 1){
@@ -70,4 +87,4 @@ void sendEnd(){
    }
   endByte >> 1;
   }
-} 
+} */
