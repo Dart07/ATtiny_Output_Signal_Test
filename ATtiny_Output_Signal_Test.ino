@@ -4,10 +4,11 @@
 byte data[2] = {};
 byte mask = 1;
 byte startByte = 0x55;
+byte endByte = 0x55;
 void setup() {
 // no need to set up, just run through the loop
-data[0] = 0xFF;
-data[1] = 0xFF;
+data[0] = 0x55;
+data[1] = 0x55;
 pinMode(ATtiny_PIN2, OUTPUT);
 pinMode(ATtiny_PIN3, OUTPUT);
 digitalWrite(ATtiny_PIN2, LOW);
@@ -19,13 +20,13 @@ void loop() {
   //digitalWrite(ATtiny_PIN2, HIGH);
   //blinkLED();
   sendStart();
-  /*sendData(data[1]);
+  sendData(data[1]);
   sendData(data[0]);
   sendEnd();
-  */
+  
 }
 void sendStart(){
-   for (mask = 00000001; mask>0; mask <<= 1) { //iterate through bit mask
+   for (mask = 10000000; mask>0; mask >>= 1) { //iterate through bit mask //Most significant bit gets sent out first
     if (startByte & mask){ // if bitwise AND resolves to true
       digitalWrite(ATtiny_PIN2,HIGH); // send 1
     }
@@ -34,6 +35,29 @@ void sendStart(){
     }
     delay(1000); //delay
   } 
+}
+void sendData(byte data){
+   for (mask = 10000000; mask>0; mask >>= 1) { //iterate through bit mask //Most significant bit gets sent out first
+    if (data & mask){ // if bitwise AND resolves to true
+      digitalWrite(ATtiny_PIN2,HIGH); // send 1
+    }
+    else{ //if bitwise and resolves to false
+      digitalWrite(ATtiny_PIN2,LOW); // send 0
+    }
+    delay(1000); //delay
+  }  
+}
+
+void sendEnd(){
+   for (mask = 10000000; mask>0; mask >>= 1) { //iterate through bit mask //Most significant bit gets sent out first
+    if (endByte & mask){ // if bitwise AND resolves to true
+      digitalWrite(ATtiny_PIN2,HIGH); // send 1
+    }
+    else{ //if bitwise and resolves to false
+      digitalWrite(ATtiny_PIN2,LOW); // send 0
+    }
+    delay(1000); //delay
+  }  
 }
 // not going to work since it is a btye and not separate bits in an array...
 /*void sendStart(){
