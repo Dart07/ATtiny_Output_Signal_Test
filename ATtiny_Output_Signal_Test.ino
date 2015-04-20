@@ -7,8 +7,8 @@ byte startByte = 0x55;
 byte endByte = 0x55;
 void setup() {
 // no need to set up, just run through the loop
-data[0] = 0x55;
-data[1] = 0x55;
+data[0] = 0xFF;
+data[1] = 0xFF;
 pinMode(ATtiny_PIN2, OUTPUT);
 pinMode(ATtiny_PIN3, OUTPUT);
 digitalWrite(ATtiny_PIN2, LOW);
@@ -33,7 +33,7 @@ void sendStart(){
     else{ //if bitwise and resolves to false
       digitalWrite(ATtiny_PIN2,LOW); // send 0
     }
-    delay(1000); //delay
+    delay(500); //delay
   } 
 }
 void sendData(byte data){
@@ -44,7 +44,7 @@ void sendData(byte data){
     else{ //if bitwise and resolves to false
       digitalWrite(ATtiny_PIN2,LOW); // send 0
     }
-    delay(1000); //delay
+    delay(500); //delay
   }  
 }
 
@@ -56,7 +56,7 @@ void sendEnd(){
     else{ //if bitwise and resolves to false
       digitalWrite(ATtiny_PIN2,LOW); // send 0
     }
-    delay(1000); //delay
+    delay(500); //delay
   }  
 }
 // not going to work since it is a btye and not separate bits in an array...
